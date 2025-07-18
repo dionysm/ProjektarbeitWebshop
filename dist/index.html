@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Mayer Großhandel - Verwaltungssystem</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    /* SkyDash Template Anpassungen */
+    .navbar {
+      background: #6C7293;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand-wrapper {
+      width: 160px;
+      padding: 0 15px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand-wrapper.collapsed {
+      width: 50px;
+    }
+
+    .navbar-brand-wrapper.collapsed .brand-logo {
+      display: none;
+    }
+
+    .navbar-toggler {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .navbar-toggler:hover {
+      background: rgba(255,255,255,0.1) !important;
+      border-radius: 4px;
+    }
+
+    .sidebar {
+      background: #191C24;
+      min-height: 100vh;
+      width: 160px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      padding-top: 60px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 50px;
+    }
+
+    .sidebar .nav-item .nav-link {
+      color: #858796;
+      padding: 12px 15px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      margin: 2px 8px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar.collapsed .nav-item .nav-link {
+      padding: 12px 8px;
+      justify-content: center;
+    }
+
+    .sidebar.collapsed .nav-item .nav-link .menu-title {
+      display: none;
+    }
+
+    .sidebar .nav-item .nav-link:hover,
+    .sidebar .nav-item .nav-link.active {
+      background: #7DA0FA;
+      color: white;
+      width:158px;
+    }
+
+     .collapsed .nav-item .nav-link:hover,
+     .collapsed .nav-item .nav-link.active {
+      width:50px!important;
+    }
+
+    .sidebar .nav-item .nav-link i {
+      margin-right: 10px;
+      font-size: 16px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .sidebar.collapsed .nav-item .nav-link i {
+      margin-right: 0;
+    }
+
+    .main-panel {
+      margin-left: 160px;
+      background: #F5F7FF;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    .main-panel.collapsed {
+      margin-left: 50px;
+    }
+
+    .content-wrapper {
+      padding: 20px;
+      padding-top: 80px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    .table {
+      font-size: 14px;
+    }
+
+    .table th {
+      background: #F8F9FC;
+      border-bottom: 1px solid #E3E6F0;
+      color: #5A5C69;
+      font-weight: 600;
+      padding: 15px 10px;
+    }
+
+    .table td {
+      border-bottom: 1px solid #E3E6F0;
+      padding: 12px 10px;
+      vertical-align: middle;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: #FBFCFD;
+    }
+
+    .btn-primary {
+      background: #4E73DF;
+      border-color: #4E73DF;
+    }
+
+    .btn-success {
+      background: #1CC88A;
+      border-color: #1CC88A;
+    }
+
+    .btn-warning {
+      background: #F6C23E;
+      border-color: #F6C23E;
+    }
+
+    .btn-danger {
+      background: #E74A3B;
+      border-color: #E74A3B;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 6px 10px;
+    }
+
+    .modal-header {
+      background: #4E73DF;
+      color: white;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .stats-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .stats-card h3 {
+      color: #4E73DF;
+      margin-bottom: 5px;
+    }
+
+    .stats-card p {
+      color: #858796;
+      margin: 0;
+    }
+
+    .editable-cell {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .editable-cell:hover {
+      background-color: #E8F4FD;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #D1D3E2;
+    }
+
+    .form-control:focus {
+      border-color: #4E73DF;
+      box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+
+    .search-bar {
+      background: white;
+      padding: 8px 15px;
+      border: 1px solid #D1D3E2;
+      border-radius: 0px;
+    }
+
+    .search-bar:focus {
+      border-color: #4E73DF;
+      box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container-scroller">
+  <!-- Navigation -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" id="navbar-brand">
+      <button class="navbar-toggler navbar-toggler-left me-3" type="button" onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 18px;">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a class="navbar-brand brand-logo me-5" href="#" style="color: white; font-size: 16px; font-weight: bold;">
+        <i class="fas fa-store"></i> Mayer Großhandel
+      </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav mr-lg-2">
+        <li class="nav-item nav-search d-none d-lg-block">
+          <div class="input-group">
+            <input type="text" class="form-control search-bar" placeholder="Suche..." style="border: none; outline: none;">
+            <div class="input-group-append">
+                                <span class="input-group-text bg-transparent border-0">
+                                    <i class="fas"></i>
+                                </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" style="color: white;">
+            <i class="fas fa-user"></i> Müller
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- Sidebar -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" onclick="showSection('kunden')">
+            <i class="fas fa-users"></i>
+            <span class="menu-title">Kundendaten</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showSection('artikel')">
+            <i class="fas fa-boxes"></i>
+            <span class="menu-title">Artikel</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showSection('bestellungen')">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="menu-title">Bestellungen</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="showSection('hersteller')">
+            <i class="fas fa-industry"></i>
+            <span class="menu-title">Hersteller</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+          <div class="row">
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+              <div class="stats-card">
+                <h3>1,245</h3>
+                <p>Aktive Kunden</p>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+              <div class="stats-card">
+                <h3>2,589</h3>
+                <p>Artikel im Lager</p>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+              <div class="stats-card">
+                <h3>156</h3>
+                <p>Bestellungen heute</p>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+              <div class="stats-card">
+                <h3>€45,892</h3>
+                <p>Umsatz heute</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Neueste Bestellungen</h4>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>Bestellnummer</th>
+                        <th>Kunde</th>
+                        <th>Datum</th>
+                        <th>Betrag</th>
+                        <th>Status</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>B-2025-001</td>
+                        <td>Max Mustermann</td>
+                        <td>17.07.2025</td>
+                        <td>€1,234.56</td>
+                        <td><span class="badge bg-success">Bestätigt</span></td>
+                      </tr>
+                      <tr>
+                        <td>B-2025-002</td>
+                        <td>Anna Schmidt</td>
+                        <td>17.07.2025</td>
+                        <td>€567.89</td>
+                        <td><span class="badge bg-warning">In Bearbeitung</span></td>
+                      </tr>
+                      <tr>
+                        <td>B-2025-003</td>
+                        <td>Peter Weber</td>
+                        <td>16.07.2025</td>
+                        <td>€890.12</td>
+                        <td><span class="badge bg-success">Versandt</span></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kunden Section -->
+        <div id="kunden" class="section">
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Kundenverwaltung</h4>
+                    <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('kunden')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('kunden')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('kunden')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                      <button class="btn btn-primary" onclick="showModal('kundenModal')">
+                        <i class="fas fa-plus"></i> Neuen Kunden anlegen
+                      </button>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>KundenNR</th>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>Seit wann Kunde</th>
+                        <th>Geburtsdatum</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>K-001</td>
+                        <td class="editable-cell" onclick="editCell(this)">Max</td>
+                        <td class="editable-cell" onclick="editCell(this)">Mustermann</td>
+                        <td>01.01.2020</td>
+                        <td class="editable-cell" onclick="editCell(this)">15.05.1985</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>K-002</td>
+                        <td class="editable-cell" onclick="editCell(this)">Anna</td>
+                        <td class="editable-cell" onclick="editCell(this)">Schmidt</td>
+                        <td>🎂18.07.2021</td>
+                        <td class="editable-cell" onclick="editCell(this)">15.05.1985</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>K-003</td>
+                        <td class="editable-cell" onclick="editCell(this)">Peter</td>
+                        <td class="editable-cell" onclick="editCell(this)">Weber</td>
+                        <td>01.02.2022</td>
+                        <td class="editable-cell" onclick="editCell(this)">15.05.1985</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Adresse Tabelle -->
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Adressverwaltung</h4>
+                   <!-- <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('adresse')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('adresse')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('adresse')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                    </div> -->
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>Firmenname</th>
+                        <th>Strasse</th>
+                        <th>Hausnummer</th>
+                        <th>Postleitzahl</th>
+                        <th>Ort</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td class="editable-cell" onclick="editCell(this)">Mustermann GmbH</td>
+                        <td class="editable-cell" onclick="editCell(this)">Musterstraße</td>
+                        <td class="editable-cell" onclick="editCell(this)">1</td>
+                        <td class="editable-cell" onclick="editCell(this)">12345</td>
+                        <td class="editable-cell" onclick="editCell(this)">Musterstadt</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td class="editable-cell" onclick="editCell(this)">Schmidt & Partner</td>
+                        <td class="editable-cell" onclick="editCell(this)">Hauptstraße</td>
+                        <td class="editable-cell" onclick="editCell(this)">15</td>
+                        <td class="editable-cell" onclick="editCell(this)">54321</td>
+                        <td class="editable-cell" onclick="editCell(this)">Beispielort</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td class="editable-cell" onclick="editCell(this)">Weber Solutions</td>
+                        <td class="editable-cell" onclick="editCell(this)">Nebenstraße</td>
+                        <td class="editable-cell" onclick="editCell(this)">8</td>
+                        <td class="editable-cell" onclick="editCell(this)">98765</td>
+                        <td class="editable-cell" onclick="editCell(this)">Teststadt</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artikel Section -->
+        <div id="artikel" class="section">
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Artikelverwaltung</h4>
+                    <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('artikel')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('artikel')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('artikel')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                      <button class="btn btn-primary" onclick="showModal('artikelModal')">
+                        <i class="fas fa-plus"></i> Neuen Artikel anlegen
+                      </button>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>ArtikelnummerID</th>
+                        <th>Artikel_Bezeichnung</th>
+                        <th>Preis</th>
+                        <th>Hersteller</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>1</td>
+                        <td class="editable-cell" onclick="editCell(this)">Standardschraube M6</td>
+                        <td class="editable-cell" onclick="editCell(this)">15</td>
+                        <td>Würth</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2</td>
+                        <td class="editable-cell" onclick="editCell(this)">Bohrmaschine Professional</td>
+                        <td class="editable-cell" onclick="editCell(this)">29999</td>
+                        <td>Bosch</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>3</td>
+                        <td class="editable-cell" onclick="editCell(this)">Hammer 500g</td>
+                        <td class="editable-cell" onclick="editCell(this)">1999</td>
+                        <td>Daimler</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bestellungen Section -->
+        <div id="bestellungen" class="section">
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Bestellungen</h4>
+                    <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('bestellungen')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('bestellungen')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('bestellungen')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                      <button class="btn btn-primary" onclick="showModal('bestellungModal')">
+                        <i class="fas fa-plus"></i> Neue Bestellung anlegen
+                      </button>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>Globale_Bestellnummer</th>
+                        <th>Bestell Datum</th>
+                        <th>KundenNR</th>
+                        <th>Rechnungsadresse</th>
+                        <th>Lieferadresse</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>1</td>
+                        <td class="editable-cell" onclick="editCell(this)">17.06.2025</td>
+                        <td>K-001</td>
+                        <td>1</td>
+                        <td>1</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2</td>
+                        <td class="editable-cell" onclick="editCell(this)">17.06.2025</td>
+                        <td>K-002</td>
+                        <td>2</td>
+                        <td>2</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>3</td>
+                        <td class="editable-cell" onclick="editCell(this)">17.06.2025</td>
+                        <td>K-003</td>
+                        <td>3</td>
+                        <td>3</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bestellpositionen Tabelle -->
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Bestellpositionen für Bestellung XY</h4>
+                   <!-- <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('bestellpositionen')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('bestellpositionen')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('bestellpositionen')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                    </div>-->
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>Globale_Bestellnummer</th>
+                        <th>Artikelbezeichnung</th>
+                        <th>Artikelnummer</th>
+                        <th>Anzahl</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>Bremse</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td class="editable-cell" onclick="editCell(this)">2</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>Stoßdämpfer</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td class="editable-cell" onclick="editCell(this)">100</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>Lenkrad</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td class="editable-cell" onclick="editCell(this)">5</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hersteller Section -->
+        <div id="hersteller" class="section">
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="card-title">Herstellerverwaltung</h4>
+                    <div>
+                      <button class="btn btn-secondary me-2" onclick="refreshTable('hersteller')">
+                        <i class="fas fa-refresh"></i> Aktualisieren
+                      </button>
+                      <button class="btn btn-success me-2" onclick="saveTable('hersteller')">
+                        <i class="fas fa-save"></i> Speichern
+                      </button>
+                      <button class="btn btn-danger me-2" onclick="deleteSelected('hersteller')">
+                        <i class="fas fa-trash"></i> Löschen
+                      </button>
+                      <button class="btn btn-primary" onclick="showModal('herstellerModal')">
+                        <i class="fas fa-plus"></i> Neuen Hersteller anlegen
+                      </button>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                        <th>HerstellerID</th>
+                        <th>Hersteller_Name</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>1</td>
+                        <td class="editable-cell" onclick="editCell(this)">Würth</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>2</td>
+                        <td class="editable-cell" onclick="editCell(this)">Bosch</td>
+                      </tr>
+                      <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+                        <td>3</td>
+                        <td class="editable-cell" onclick="editCell(this)">Stanley</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+                            Copyright © 2025 PlogSolution GmbH. Alle Rechte vorbehalten.
+                        </span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+                            Entwickelt für Mayer Großhandel
+                        </span>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- Modal für Neuen Kunden -->
+<div class="modal fade" id="kundenModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Neuen Kunden anlegen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Vorname</label>
+                <input type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Nachname</label>
+                <input type="text" class="form-control" required>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">AdresseID</label>
+            <input type="number" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Geburtsdatum</label>
+            <input type="date" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-primary" onclick="saveKunde()">Kunde speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bestätigungs-Modal für Speichern -->
+<div class="modal fade" id="saveConfirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Änderungen speichern</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Möchten Sie die Änderungen wirklich speichern?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-success" onclick="confirmSave()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bestätigungs-Modal für Löschen -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Datensätze löschen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Möchten Sie die ausgewählten Datensätze wirklich löschen?</p>
+        <p class="text-danger"><strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  let currentTable = '';
+  let selectedRows = [];
+
+  // Sidebar Toggle-Funktion
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainPanel = document.querySelector('.main-panel');
+    const navbarBrand = document.getElementById('navbar-brand');
+
+    sidebar.classList.toggle('collapsed');
+    mainPanel.classList.toggle('collapsed');
+    navbarBrand.classList.toggle('collapsed');
+  }
+
+  // Navigation zwischen Sections
+  function showSection(sectionId) {
+    // Alle Sections ausblenden
+    document.querySelectorAll('.section').forEach(section => {
+      section.classList.remove('active');
+    });
+
+    // Alle Nav-Links deaktivieren
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Gewählte Section anzeigen
+    document.getElementById(sectionId).classList.add('active');
+
+    // Entsprechenden Nav-Link aktivieren
+    event.target.classList.add('active');
+  }
+
+  // Excel-ähnliche Zellenbearbeitung
+  function editCell(cell) {
+    const originalValue = cell.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = originalValue;
+    input.className = 'form-control form-control-sm';
+    input.style.width = '100%';
+
+    cell.innerHTML = '';
+    cell.appendChild(input);
+    input.focus();
+
+    input.addEventListener('blur', function() {
+      const newValue = input.value;
+      cell.textContent = newValue;
+      cell.style.backgroundColor = '#fff3cd'; // Geänderte Zelle markieren
+    });
+
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        input.blur();
+      }
+      if (e.key === 'Escape') {
+        cell.textContent = originalValue;
+      }
+    });
+  }
+
+  // Alle Checkboxen in einer Tabelle auswählen/abwählen
+  function toggleAll(checkbox) {
+    const table = checkbox.closest('table');
+    const checkboxes = table.querySelectorAll('.row-select');
+
+    checkboxes.forEach(cb => {
+      cb.checked = checkbox.checked;
+    });
+  }
+
+  // Tabelle aktualisieren (Daten neu laden)
+  function refreshTable(tableName) {
+    showNotification(`Tabelle ${tableName} wird aktualisiert...`, 'info');
+
+    // Hier würde normalerweise eine AJAX-Anfrage an das Backend gesendet
+    setTimeout(() => {
+      // Alle Markierungen entfernen
+      const cells = document.querySelectorAll('.editable-cell');
+      cells.forEach(cell => {
+        cell.style.backgroundColor = '';
+      });
+
+      showNotification(`Tabelle ${tableName} erfolgreich aktualisiert`, 'success');
+    }, 1000);
+  }
+
+  // Speichern-Funktion mit Bestätigung
+  function saveTable(tableName) {
+    currentTable = tableName;
+    const modal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
+    modal.show();
+  }
+
+  // Bestätigung für Speichern
+  function confirmSave() {
+    // Hier würde normalerweise eine AJAX-Anfrage an das Backend gesendet
+    showNotification(`Änderungen in ${currentTable} erfolgreich gespeichert`, 'success');
+
+    // Alle Markierungen entfernen
+    const cells = document.querySelectorAll('.editable-cell');
+    cells.forEach(cell => {
+      cell.style.backgroundColor = '';
+    });
+
+    bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal')).hide();
+  }
+
+  // Löschen-Funktion mit Bestätigung
+  function deleteSelected(tableName) {
+    const selectedCheckboxes = document.querySelectorAll('.row-select:checked');
+
+    if (selectedCheckboxes.length === 0) {
+      showNotification('Bitte wählen Sie zuerst Datensätze zum Löschen aus', 'warning');
+      return;
+    }
+
+    currentTable = tableName;
+    selectedRows = Array.from(selectedCheckboxes);
+
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+  }
+
+  // Bestätigung für Löschen
+  function confirmDelete() {
+    selectedRows.forEach(checkbox => {
+      const row = checkbox.closest('tr');
+      row.remove();
+    });
+
+    showNotification(`${selectedRows.length} Datensätze aus ${currentTable} erfolgreich gelöscht`, 'success');
+
+    bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+    selectedRows = [];
+  }
+
+  // Modal anzeigen
+  function showModal(modalId) {
+    const modal = new bootstrap.Modal(document.getElementById(modalId));
+    modal.show();
+  }
+
+  // Kunden speichern
+  function saveKunde() {
+    // Hier würde normalerweise eine AJAX-Anfrage an das Backend gesendet
+    showNotification('Kunde erfolgreich gespeichert', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('kundenModal')).hide();
+  }
+
+  // Notification System
+  function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
+  }
+
+  // Beispiel-Daten dynamisch laden (simuliert)
+  document.addEventListener('DOMContentLoaded', function() {
+    // Simulierte Datenvalidierung
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('blur', function() {
+        if (this.hasAttribute('required') && !this.value) {
+          this.classList.add('is-invalid');
+        } else {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

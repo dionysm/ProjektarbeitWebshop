@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+      <html lang="de">
+      <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Mayer Großhandel - Kundenverwaltung</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/general_customization.css">
+</head>
+
+<body>
+<div class="container-scroller">
+  <!-- Navigation -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" id="navbar-brand">
+      <button class="navbar-toggler navbar-toggler-left me-3" type="button" onclick="toggleSidebar()" style="background: none; border: none; color: white; font-size: 18px;">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a class="navbar-brand brand-logo me-5" href="#" style="color: white; font-size: 16px; font-weight: bold;">
+        <i class="fas fa-store"></i> Mayer Großhandel
+      </a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav mr-lg-2">
+        <li class="nav-item nav-search d-none d-lg-block">
+          <div class="input-group">
+                            <span class="input-group-text bg-transparent border-0">
+                                <i class="fas fa-search"></i>
+                            </span>
+            <input type="text" class="form-control search-bar" placeholder="Suche..." style="border: none; outline: none;">
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" style="color: white;">
+            <i class="fas fa-user"></i> Admin
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- Sidebar -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">
+            <i class="fas fa-users"></i>
+            <span class="menu-title">Kundendaten</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <!-- Kundenverwaltung -->
+        <div class="row">
+          <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h4 class="card-title">Kundenverwaltung</h4>
+                  <div>
+                    <button class="btn btn-secondary me-2" onclick="refreshTable()">
+                      <i class="fas fa-refresh"></i> Aktualisieren
+                    </button>
+                    <button class="btn btn-success me-2" onclick="saveTable()">
+                      <i class="fas fa-save"></i> Speichern
+                    </button>
+                    <button class="btn btn-danger me-2" onclick="deleteSelected()">
+                      <i class="fas fa-trash"></i> Löschen
+                    </button>
+                    <button class="btn btn-primary" onclick="showModal()">
+                      <i class="fas fa-plus"></i> Neuen Kunden anlegen
+                    </button>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th><input type="checkbox" onclick="toggleAll(this)"></th>
+                      <th>KundenNR</th>
+                      <th>Vorname</th>
+                      <th>Nachname</th>
+                      <th>Geburtsdatum</th>
+                      <th>Firmenname</th>
+                      <th>Straße</th>
+                      <th>Hausnummer</th>
+                      <th>PLZ</th>
+                      <th>Ort</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td><input type="checkbox" class="row-select"></td>
+                      <td>K-001</td>
+                      <td class="editable-cell" onclick="editCell(this)">Max</td>
+                      <td class="editable-cell" onclick="editCell(this)">Mustermann</td>
+                      <td class="editable-cell" onclick="editCell(this)">1985-05-15</td>
+                      <td class="editable-cell" onclick="editCell(this)">Mustermann GmbH</td>
+                      <td class="editable-cell" onclick="editCell(this)">Musterstraße</td>
+                      <td class="editable-cell" onclick="editCell(this)">1</td>
+                      <td class="editable-cell" onclick="editCell(this)">12345</td>
+                      <td class="editable-cell" onclick="editCell(this)">Musterstadt</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" class="row-select"></td>
+                      <td>K-002</td>
+                      <td class="editable-cell" onclick="editCell(this)">Anna</td>
+                      <td class="editable-cell" onclick="editCell(this)">Schmidt</td>
+                      <td class="editable-cell" onclick="editCell(this)">1990-08-22</td>
+                      <td class="editable-cell" onclick="editCell(this)">Schmidt & Partner</td>
+                      <td class="editable-cell" onclick="editCell(this)">Hauptstraße</td>
+                      <td class="editable-cell" onclick="editCell(this)">15</td>
+                      <td class="editable-cell" onclick="editCell(this)">54321</td>
+                      <td class="editable-cell" onclick="editCell(this)">Beispielort</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" class="row-select"></td>
+                      <td>K-003</td>
+                      <td class="editable-cell" onclick="editCell(this)">Peter</td>
+                      <td class="editable-cell" onclick="editCell(this)">Weber</td>
+                      <td class="editable-cell" onclick="editCell(this)">1978-12-03</td>
+                      <td class="editable-cell" onclick="editCell(this)">Weber Solutions</td>
+                      <td class="editable-cell" onclick="editCell(this)">Nebenstraße</td>
+                      <td class="editable-cell" onclick="editCell(this)">8</td>
+                      <td class="editable-cell" onclick="editCell(this)">98765</td>
+                      <td class="editable-cell" onclick="editCell(this)">Teststadt</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+                            Copyright © 2025 PlogSolution GmbH. Alle Rechte vorbehalten.
+                        </span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+                            Entwickelt für Mayer Großhandel
+                        </span>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- Modal für Neuen Kunden -->
+<div class="modal fade" id="kundenModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Neuen Kunden anlegen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Vorname</label>
+                <input type="text" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label">Nachname</label>
+                <input type="text" class="form-control" required>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Geburtsdatum</label>
+            <input type="date" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Firmenname</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label class="form-label">Straße</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label">Hausnummer</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label">PLZ</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label class="form-label">Ort</label>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-primary" onclick="saveKunde()">Kunde speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bestätigungs-Modal für Speichern -->
+<div class="modal fade" id="saveConfirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Änderungen speichern</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Möchten Sie die Änderungen wirklich speichern?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-success" onclick="confirmSave()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bestätigungs-Modal für Löschen -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Datensätze löschen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Möchten Sie die ausgewählten Datensätze wirklich löschen?</p>
+        <p class="text-danger"><strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  let selectedRows = [];
+
+  // Sidebar Toggle-Funktion
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainPanel = document.querySelector('.main-panel');
+    const navbarBrand = document.getElementById('navbar-brand');
+
+    sidebar.classList.toggle('collapsed');
+    mainPanel.classList.toggle('collapsed');
+    navbarBrand.classList.toggle('collapsed');
+  }
+
+  // Excel-ähnliche Zellenbearbeitung
+  function editCell(cell) {
+    const originalValue = cell.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = originalValue;
+    input.className = 'form-control form-control-sm';
+    input.style.width = '100%';
+
+    cell.innerHTML = '';
+    cell.appendChild(input);
+    input.focus();
+
+    input.addEventListener('blur', function() {
+      const newValue = input.value;
+      cell.textContent = newValue;
+      cell.style.backgroundColor = '#fff3cd'; // Geänderte Zelle markieren
+    });
+
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        input.blur();
+      }
+      if (e.key === 'Escape') {
+        cell.textContent = originalValue;
+      }
+    });
+  }
+
+  // Alle Checkboxen auswählen/abwählen
+  function toggleAll(checkbox) {
+    const checkboxes = document.querySelectorAll('.row-select');
+    checkboxes.forEach(cb => {
+      cb.checked = checkbox.checked;
+    });
+  }
+
+  // Tabelle aktualisieren
+  function refreshTable() {
+    showNotification('Tabelle wird aktualisiert...', 'info');
+    setTimeout(() => {
+      const cells = document.querySelectorAll('.editable-cell');
+      cells.forEach(cell => {
+        cell.style.backgroundColor = '';
+      });
+      showNotification('Tabelle erfolgreich aktualisiert', 'success');
+    }, 1000);
+  }
+
+  // Speichern mit Bestätigung
+  function saveTable() {
+    const modal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
+    modal.show();
+  }
+
+  // Bestätigung für Speichern
+  function confirmSave() {
+    showNotification('Änderungen erfolgreich gespeichert', 'success');
+    const cells = document.querySelectorAll('.editable-cell');
+    cells.forEach(cell => {
+      cell.style.backgroundColor = '';
+    });
+    bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal')).hide();
+  }
+
+  // Löschen mit Bestätigung
+  function deleteSelected() {
+    const selectedCheckboxes = document.querySelectorAll('.row-select:checked');
+    if (selectedCheckboxes.length === 0) {
+      showNotification('Bitte wählen Sie zuerst Datensätze zum Löschen aus', 'warning');
+      return;
+    }
+    selectedRows = Array.from(selectedCheckboxes);
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
+  }
+
+  // Bestätigung für Löschen
+  function confirmDelete() {
+    selectedRows.forEach(checkbox => {
+      const row = checkbox.closest('tr');
+      row.remove();
+    });
+    showNotification(`${selectedRows.length} Datensätze erfolgreich gelöscht`, 'success');
+    bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+    selectedRows = [];
+  }
+
+  // Modal anzeigen
+  function showModal() {
+    const modal = new bootstrap.Modal(document.getElementById('kundenModal'));
+    modal.show();
+  }
+
+  // Kunden speichern
+  function saveKunde() {
+    showNotification('Kunde erfolgreich gespeichert', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('kundenModal')).hide();
+  }
+
+  // Notification System
+  function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
+  }
+
+  // Validierung
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('blur', function() {
+        if (this.hasAttribute('required') && !this.value) {
+          this.classList.add('is-invalid');
+        } else {
+          this.classList.remove('is-invalid');
+          this.classList.add('is-valid');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
